@@ -86,7 +86,7 @@ const UserList = () => {
 
   const defaultValues: Filters = {
     name: '',
-    sort: UserListSort.ByOrderAscending,
+    sort: '',
   }
   const { control, watch } = useForm({ defaultValues, mode: 'onChange' })
   const formState = watch()
@@ -127,7 +127,7 @@ const UserList = () => {
   `
 
   return (
-    <div>
+    <div css={css`${mq[0]} { min-width: 600px; }`}>
       <div
         css={css`
           margin-bottom: 10px;

@@ -25,6 +25,7 @@ const Picker = styled.select`
   border: 1px solid ${colors.gray};
   border-radius: 5px;
   padding: 8px 5px 8px 10px;
+  height: 36px;
 `
 
 const Button = styled.button`

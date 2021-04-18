@@ -30,6 +30,7 @@ const Layout: FC<{ navbarProps?: any } & HTMLAttributes<HTMLDivElement>> = ({ ch
           css={css`
             padding: 0;
             width: 100vw;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
