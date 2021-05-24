@@ -2,7 +2,7 @@ import { FC, HTMLAttributes } from 'react'
 import Div100vh from 'react-div-100vh'
 import { css, useTheme } from '../styles/theme'
 
-const Layout: FC<{ navbarProps?: any } & HTMLAttributes<HTMLDivElement>> = ({ children, navbarProps, ...props }) => {
+const Layout: FC<HTMLAttributes<HTMLDivElement>> = ({ children, ...props }) => {
   const { mq } = useTheme()
   return (
     <Div100vh
