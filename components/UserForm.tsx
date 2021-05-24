@@ -2,7 +2,7 @@ import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useForm, Controller } from 'react-hook-form'
-import { useTheme, css, styled, manipulator } from '../styles/theme'
+import { useTheme, css, manipulator } from '../styles/theme'
 import { TextInput, Label, Hint, FormButton } from '../components/index'
 
 type UserFormProps = {

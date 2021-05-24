@@ -14,10 +14,19 @@ enum UserListSort {
   ByOderDescending = 'BY_ORDER_DESC',
   ByUserName = 'BY_USER_NAME',
 }
-
 interface Filters {
   name: string
   sort: string
+}
+
+type UserProps = {
+  id: number
+  name: string
+  email: string
+}
+
+type InitStateType = {
+  users: UserProps[]
 }
 
 function HeaderItem({ label, style }: { label: string; style: string }) {
@@ -39,7 +48,7 @@ function HeaderItem({ label, style }: { label: string; style: string }) {
   )
 }
 
-function UserItemField({ label, style, value }: { label: string; style: string; value: string }) {
+function UserItemField({ label, style, value }: { label: string; style: string; value: number | string }) {
   const { mq } = useTheme()
   const { t } = useTranslation()
 
@@ -78,7 +87,97 @@ function UserItemField({ label, style, value }: { label: string; style: string; 
   )
 }
 
-const UserList = () => {
+function UserList ({ data, dispatch }: { data: UserProps[], dispatch: (value: { type: ActionTypes; payload: any }) => void }) {
+  const { mq, colors } = useTheme()
+  const { t } = useTranslation()
+  return (
+    <>
+      <Container
+        css={css`
+          padding: 6px 10px;
+          background-color: ${colors.menuBackground};
+          align-items: flex-start;
+          ${mq[0]} {
+            align-items: center;
+          }
+        `}
+      >
+        <HeaderItem style="width: 60px" label={'USER_FORM.HEADER_LABEL_ID'} />
+        <HeaderItem style="width: 200px" label={'USER_FORM.HEADER_LABEL_NAME'} />
+        <HeaderItem style="flex: 1" label={'USER_FORM.HEADER_LABEL_EMAIL'} />
+        <div
+          css={css`
+            width: 100px;
+            display: none;
+            ${mq[0]} {
+              display: block;
+            }
+          `}
+        />
+        <div
+          css={css`
+            flex: 1;
+            display: block;
+            ${mq[0]} {
+              display: none;
+            }
+          `}
+        >
+          {t('USER_FORM.MOBILE_HEADER_LABEL')}
+        </div>
+      </Container>
+      {data.length > 0 ? (
+        data.map((user, index) => (
+          <Container
+            key={user.id}
+            css={css`
+              padding: 10px;
+              border-bottom: ${index + 1 === data.length ? 0 : 1}px solid #d4d4d4;
+              align-items: flex-start;
+              ${mq[0]} {
+                align-items: center;
+              }
+            `}
+          >
+            <UserItemField label="USER_FORM.HEADER_LABEL_ID" value={user.id} style="width: 60px" />
+            <UserItemField label="USER_FORM.HEADER_LABEL_NAME" value={user.name} style="width: 200px" />
+            <UserItemField label="USER_FORM.HEADER_LABEL_EMAIL" value={user.email} style="flex: 1" />
+            <div
+              css={css`
+                width: 90vw;
+                justify-content: flex-end;
+                display: flex;
+                ${mq[0]} {
+                  width: 100px;
+                }
+              `}
+            >
+              <Button
+                css={css``}
+                onClick={() => {
+                  dispatch({ type: ActionTypes.Delete, payload: { id: user.id } })
+                }}
+              >
+                {t('FORM.BUTTON_DELETE_USER')}
+              </Button>
+            </div>
+          </Container>
+        ))
+      ) : (
+        <div
+          css={css`
+            padding: 10px;
+            font-size: 14px;
+          `}
+        >
+          {t('USER_FORM.LABEL_USER_EMPTY')}
+        </div>
+      )}
+    </>
+  )
+}
+
+function UserContent () {
   const { mq, colors } = useTheme()
   const { t } = useTranslation()
   const { state, dispatch } = useContext(AppContext)
@@ -222,102 +321,15 @@ const UserList = () => {
           </Button>
         </div>
       </div>
-      <Container
-        css={css`
-          padding: 6px 10px;
-          background-color: ${colors.menuBackground};
-          align-items: flex-start;
-          ${mq[0]} {
-            align-items: center;
-          }
-        `}
-      >
-        <HeaderItem style="width: 60px" label={'USER_FORM.HEADER_LABEL_ID'} />
-        <HeaderItem style="width: 200px" label={'USER_FORM.HEADER_LABEL_NAME'} />
-        <HeaderItem style="flex: 1" label={'USER_FORM.HEADER_LABEL_EMAIL'} />
-        <div
-          css={css`
-            width: 100px;
-            display: none;
-            ${mq[0]} {
-              display: block;
-            }
-          `}
-        />
-        <div
-          css={css`
-            flex: 1;
-            display: block;
-            ${mq[0]} {
-              display: none;
-            }
-          `}
-        >
-          {t('USER_FORM.MOBILE_HEADER_LABEL')}
-        </div>
-      </Container>
-      {userList.length > 0 ? (
-        userList.map((user, index) => (
-          <Container
-            key={user.id}
-            css={css`
-              padding: 10px;
-              border-bottom: ${index + 1 === userList.length ? 0 : 1}px solid #d4d4d4;
-              align-items: flex-start;
-              ${mq[0]} {
-                align-items: center;
-              }
-            `}
-          >
-            <UserItemField label="USER_FORM.HEADER_LABEL_ID" value={user.id} style="width: 60px" />
-            <UserItemField label="USER_FORM.HEADER_LABEL_NAME" value={user.name} style="width: 200px" />
-            <UserItemField label="USER_FORM.HEADER_LABEL_EMAIL" value={user.email} style="flex: 1" />
-            <div
-              css={css`
-                width: 90vw;
-                justify-content: flex-end;
-                display: flex;
-                ${mq[0]} {
-                  width: 100px;
-                }
-              `}
-            >
-              <Button
-                css={css``}
-                onClick={() => {
-                  dispatch({ type: ActionTypes.Delete, payload: { id: user.id } })
-                }}
-              >
-                {t('FORM.BUTTON_DELETE_USER')}
-              </Button>
-            </div>
-          </Container>
-        ))
-      ) : (
-        <div
-          css={css`
-            padding: 10px;
-            font-size: 14px;
-          `}
-        >
-          {t('USER_FORM.LABEL_USER_EMPTY')}
-        </div>
-      )}
+      <UserList
+        data={userList}
+        dispatch={dispatch}
+      />
       <Modal title={t('USER_FORM.POPUP_TITLE')} showModal={showAddUserForm}>
         <UserForm onSubmit={handleAddUser} onCancel={handleAddUserFormShowable} />
       </Modal>
     </div>
   )
-}
-
-type UserType = {
-  id: number
-  name: string
-  email: string
-}
-
-type InitStateType = {
-  users: UserType[]
 }
 const initialState = {
   users: [],
@@ -364,7 +376,7 @@ function UserPage(props) {
       <AppContext.Provider value={{ state, dispatch }}>
         <Layout>
           <HeroTitle>{t('USER.TITLE_USER_MANAGEMENT')}</HeroTitle>
-          <UserList />
+          <UserContent />
         </Layout>
       </AppContext.Provider>
     </div>
@@ -372,11 +384,15 @@ function UserPage(props) {
 }
 
 export async function getStaticProps(): Promise<{ props: { users: any } }> {
-  const users = await fetcher('https://jsonplaceholder.typicode.com/users')
-  return {
-    props: {
-      users,
-    },
+  try {
+    const users = await fetcher('https://jsonplaceholder.typicode.com/users')
+    return {
+      props: {
+        users,
+      },
+    }
+  } catch (e) {
+    throw new Error(e.message)
   }
 }
 

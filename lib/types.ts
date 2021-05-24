@@ -1,9 +1,9 @@
 export const fetcher = async (url: string): Promise<unknown> => {
-  const res = await fetch(url)
-  const data = await res.json()
-
-  if (res.status !== 200) {
-    throw new Error(data.message)
+  try {
+    const res = await fetch(url)
+    const data = await res.json()
+    return data
+  } catch (e) {
+    throw new Error(e.message)
   }
-  return data
 }

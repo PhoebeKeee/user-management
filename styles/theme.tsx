@@ -1,16 +1,6 @@
-import emotionStyled from '@emotion/styled'
-import { css as emotionCSS } from '@emotion/react'
-
-export const styled = emotionStyled
-export const css = emotionCSS
-
-export const manipulator = {
-  container: (flexDirection = 'column', justifyContent = 'flex-start', alignItems = 'center') => {
-    return `display: flex; flex-direction: ${flexDirection}; justify-content: ${justifyContent}; align-items: ${alignItems}`
-  },
-}
-
-export interface Theme {
+import { css } from '@emotion/react'
+import styled from '@emotion/styled'
+interface Theme {
   breakpoints: string[]
   mq: string[]
   fontSizes: number[]
@@ -32,4 +22,19 @@ const theme: Theme = {
     menuBackground: '#f4f4f4',
   },
 }
-export const useTheme = () => theme
+
+
+const useTheme = () => theme
+
+const manipulator = {
+  container: (flexDirection = 'column', justifyContent = 'flex-start', alignItems = 'center') => {
+    return `display: flex; flex-direction: ${flexDirection}; justify-content: ${justifyContent}; align-items: ${alignItems}`
+  }
+}
+
+export {
+  styled,
+  css,
+  useTheme,
+  manipulator
+}
