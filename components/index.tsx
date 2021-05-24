@@ -1,5 +1,6 @@
 import { styled, useTheme, manipulator } from '../styles/theme'
 import UserForm from './UserForm'
+import UserList from './UserList'
 import Layout from './Layout'
 
 const { mq, colors } = useTheme()
@@ -66,4 +67,4 @@ const Hint = styled.span`
   padding-left: 10px;
 `
 
-export { UserForm, Container, Layout, HeroTitle, Picker, Button, FormButton, Label, Hint, TextInput }
+export { UserForm, UserList, Container, Layout, HeroTitle, Picker, Button, FormButton, Label, Hint, TextInput }

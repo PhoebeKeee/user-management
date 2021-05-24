@@ -1,3 +1,5 @@
+import type { User } from './types'
+
 type ActionMap<M extends { [index: string]: User | User[] | { id: number } }> = {
   [Key in keyof M]: M[Key] extends undefined ? { type: Key } : { type: Key; payload: M[Key] };
 };
@@ -7,12 +9,6 @@ export enum ActionTypes {
   Add = 'ADD',
   Delete = 'DELETE',
 }
-
-export type User = {
-  id: number;
-  name: string;
-  email: string;
-};
 
 type UserFormPayload = {
   [ActionTypes.Create]: User[];
